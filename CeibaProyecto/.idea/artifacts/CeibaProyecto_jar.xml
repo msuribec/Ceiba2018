@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="CeibaProyecto:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/CeibaProyecto_jar</output-path>
+    <root id="archive" name="CeibaProyecto_jar.jar">
+      <element id="module-output" name="CeibaProyecto" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../jfreechart-1.0.19/lib/jfreechart-1.0.19.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../jfreechart-1.0.19/lib/jcommon-1.0.23.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
