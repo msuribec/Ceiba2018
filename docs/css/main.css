@@ -2527,7 +2527,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 .about-video-right {
-  background: url(../imagenes/videoFotos.png) no-repeat center;
+  /* background: url(../imagenes/videoFotos.png) no-repeat center; */
   background-size: cover;
   height: 330px;
 }
