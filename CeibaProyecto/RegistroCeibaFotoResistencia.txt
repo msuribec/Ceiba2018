@@ -1,0 +1,19 @@
+Análisis de FotoResistencia
+
+Máximo histórico: 1024.0°C
+Fecha: 25/05/14:08
+
+Máximo en las últimas 24 horas : 1024.0°C
+Fecha: 25/05/14:23
+
+Mínimo histórico :228.0°C
+Fecha:25/05/14:24
+
+Minimo en las últimas 24 horas: 228.0°C
+Fecha: 25/05/14:24
+
+Promedio histórico de FotoResistencia es de 302.46295°C
+
+Promedio de FotoResistencia de las últimas 24 horas es 295.04166°C
+
+Fecha del análisis: 30/05/18/12:59

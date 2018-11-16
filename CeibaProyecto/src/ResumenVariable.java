@@ -1,4 +1,3 @@
-package Visualizacion;
 
 import java.awt.Color;
 import java.awt.Stroke;
@@ -13,76 +12,42 @@ import java.awt.font.FontRenderContext;
 import java.awt.font.LineMetrics;
 import java.util.*;
 import javax.swing.JPanel;
-/**
- * Representa un Componete Jpanel
- * Este compnente incorpora un Gráfico 2d , en el eje horizontal se muestran la progresión del tiempo en horas y en el eje vertical se muestran
- * los últimos 24 datos recibidos del servidor para una variable determinada.
- *
- * Cada punto está acompañado de una etiqueta con el valor de la variable , para más precisión a la hora de leer datos.
- * @see Inicio
- */
 
 public class ResumenVariable extends JPanel {
 
-    /**lista de valores a incluir en el gráfico*/
     private List<Double> valores;
-    /**lista tipo Puntos que contiene el valor de la variable y la hora donde se da ,  de la forma (hora,valor)*/
     private List<Punto> circulos;
-    /**lista tipo Puntos con las coordenadas donde se ubicarán los circulos*/
     private List<Punto> puntos;
-    /**unidades de la variable (en cualquier sistema de medición)*/
     private String unidades;
-    /**nombre de la variable a graficar*/
     private String variable;
-    /**Lista de fechas*/
     private List<String> fechas;
+    private List<Double> coordX;
 
-    /**valor mínimo*/
     private double minVal ;
-    /**valor máximo*/
     private double maxVal ;
 
-    /**Grosor de las lineas */
     private static final Stroke GrosorReglas = new BasicStroke(1f);
-    /**Grosor de los gráficos*/
     private static final Stroke GrosorGrafico = new BasicStroke(3f);
-    /**Espacio entre componentes del gráfico*/
+    private int anchoPuntos = 5;
+    private int divisiones = 20;
     private final int espacio = 20;
-    /**Margen del gráfico*/
     private final int espacioBordes = 80;
-    /**Escala de conversión para el eje x*/
-    private double conversorX;
-    /**Escala de conversión para el eje y*/
-    private double conversorY;
+    double conversorX;
+    double conversorY;
+
+    Color fondo = new Color(255, 255, 255);
+    Color titulosEjes = new Color(255, 43, 190);
+    Color ejes = new Color(199, 199, 199);
+    Color lineas = new Color(238, 238, 238);
+    Color lineasConectan = new Color(255, 43, 190);
+    Color colorPuntos = new Color(192, 33, 197);
+    Color numerosEjes = new Color(191, 191, 191);
+    Color fechasHoras = new Color(206, 206, 206);
+    Color etiquetasPuntos = new Color(204, 42, 34);
 
 
-    /**Color para el fondo del gráfico*/
-    private Color fondo = new Color(255, 255, 255);
-    /**Color para los titulos de ejes*/
-    private Color titulosEjes = new Color(255, 43, 190);
-    /**Color para los ejes*/
-    private Color ejes = new Color(199, 199, 199);
-    /**Color para las líneas del gráfico*/
-    private Color lineas = new Color(238, 238, 238);
-    /**Color para las líneas que conectan los puntos*/
-    private Color lineasConectan = new Color(255, 43, 190);
-    /**Color para el color de los puntos*/
-    private Color colorPuntos = new Color(192, 33, 197);
-    /**Color para los números de ls ejes*/
-    private Color numerosEjes = new Color(191, 191, 191);
-    /**Color para las fechas y horas*/
-    private Color fechasHoras = new Color(206, 206, 206);
-    /**Color para las etiquetas de los puntos*/
-    private Color etiquetasPuntos = new Color(136, 0, 147);
 
-
-    /**Construye e inicializa un nuevo ApplicationFrame ResumenVariable
-     * @param  valores  lista de valores a incluir en el gráfico
-     * @param  unidades unidades de la variable (en cualquier sistema de medición)
-     * @param  fechas Lista de fechas
-     * @param  variable nombre de la variable a graficar
-     */
-    ResumenVariable(List<Double> valores, String unidades, List<String> fechas, String variable) {
+    public ResumenVariable(List<Double> valores,String unidades,List<String> fechas,String variable) {
         this.valores = valores;
         this.unidades = unidades;
         this.fechas =fechas;
@@ -91,15 +56,8 @@ public class ResumenVariable extends JPanel {
         valorMaximo();
     }
 
-
-    /**Pinta el Gráfico 2d de la variable en función del tiempo
-     * @param g el objeto Graphics para proteger
-     */
     @Override
     protected void paintComponent(Graphics g) {
-        final int anchoPuntos = 5;
-        final int divisiones = 20;
-
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
@@ -112,12 +70,15 @@ public class ResumenVariable extends JPanel {
 
         g2.setStroke(GrosorGrafico);
 
+
+        int w = getWidth();
         int h = getHeight();
+
 
         g2.setColor(titulosEjes);
         // Título eje x
 
-        g2.setFont(new Font("arial", Font.PLAIN, 14));
+        g2.setFont(new Font("TimesRoman", Font.PLAIN, 14));
         g.drawString("H O R A ",espacio -10,getHeight() - espacio - espacioBordes+40);
 
         // Título eje Y
@@ -167,7 +128,7 @@ public class ResumenVariable extends JPanel {
             int x = (int)puntos.get(i).getX() - anchoPuntos / 2;
             int y = (int)puntos.get(i).getY() - anchoPuntos / 2;
 
-            g2.setFont(new Font("arial", Font.PLAIN, 10));
+            g2.setFont(new Font("TimesRoman", Font.PLAIN, 10));
             g2.setColor(fechasHoras);
             // marcas de  fecha y hora
             String [] fecha = fechas.get(i).split("//");
@@ -187,7 +148,7 @@ public class ResumenVariable extends JPanel {
 
             g2.setColor(etiquetasPuntos);
             //etiquetas puntos
-            g2.setFont(new Font("arial", Font.PLAIN, 10));
+            g2.setFont(new Font("TimesRoman", Font.PLAIN, 10));
             g2.drawString(""+ (int)circulos.get(i).getY()+ unidades,x+2,y+40);
 
             //puntos
@@ -213,25 +174,22 @@ public class ResumenVariable extends JPanel {
         g2.drawLine(espacio + espacioBordes, getHeight() - espacio - espacioBordes, getWidth() - espacio, getHeight() - espacio - espacioBordes);
 
     }
-    /**Retorna la dimensión de la forma (ancho,alto)
-     * @return nueva dimensión con el ancho y alto del componente actual*/
+
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(getWidth(), getHeight());
     }
 
-
-    /**Establece el mínimo de los valores de la lista*/
     private void valorMinimo() {
         double minValor = valores.get(0);
-        for(double d : valores){
-            if (d< minValor){
-                minValor= d;
+        for (int i =0;i <valores.size();i++) {
+            if (valores.get(i)< minValor){
+                minValor= valores.get(i);
             }
         }
         this.minVal = minValor;
     }
-    /**Establece el máximo de los valores de la lista*/
+
     private void valorMaximo() {
         double maxValor = valores.get(0);
         for (int i =0;i <valores.size();i++) {
@@ -239,12 +197,13 @@ public class ResumenVariable extends JPanel {
                 maxValor = valores.get(i);
             }
         }
-
         this.maxVal=maxValor;
     }
 
-    /**Recorre la lista de valores y estalece las listas Circulos y Puntos*/
+
     private void establecer() {
+        Set<Double> todasX = new HashSet<>();
+        coordX = new ArrayList<>();
         // recorre cada dos valores y los agrega como puntos (x,y)
         circulos = new ArrayList<>();
         for (int i = 0; i < valores.size() - 1; i = i + 2) {
@@ -256,11 +215,13 @@ public class ResumenVariable extends JPanel {
             int x1 = (int) (i * 1.95 * conversorX + espacio + espacioBordes);
             int y1 = (int) ((maxVal - circulos.get(i).getY()) * conversorY + espacio);
             puntos.add(new Punto(x1, y1));
+            todasX.add((double)y1);
         }
-
+        Iterator <Double >iter = todasX.iterator();
+        while (iter.hasNext()) {
+            coordX.add(iter.next());
+        }
     }
-
-
 
 
 

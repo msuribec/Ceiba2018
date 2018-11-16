@@ -90,7 +90,6 @@ public class Recibir {
         try {
             sample.timestamp =  dateFormat.parse(Fecha1.replaceAll("Z$", "+0000"));
             Fechas.add(sample.timestamp);
-
         } catch (ParseException e) {
             e.printStackTrace();
         }

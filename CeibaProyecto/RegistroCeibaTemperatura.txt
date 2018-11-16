@@ -1,0 +1,19 @@
+Análisis de Temperatura
+
+Máximo histórico: 27.0°C
+Fecha: 25/05/14:24
+
+Máximo en las últimas 24 horas : 27.0°C
+Fecha: 25/05/14:24
+
+Mínimo histórico :0.0°C
+Fecha:25/05/14:17
+
+Minimo en las últimas 24 horas: 0.0°C
+Fecha: 25/05/14:17
+
+Promedio histórico de Temperatura es de 25.185184°C
+
+Promedio de Temperatura de las últimas 24 horas es 25.125°C
+
+Fecha del análisis: 30/05/18/12:59

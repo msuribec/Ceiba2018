@@ -1,46 +1,22 @@
-package Visualizacion;
-
-import Recoleccion.Recibir;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import java.io.InputStream;
 import java.util.List;
 import java.util.Scanner;
 import javax.swing.*;
 
-
-/**
- * Una instancia de la clase Resumen muestra un marco principal con Graficas de las últimas 24 horas de cada variable de manera individual,
- * además se muestra un panel con el análisis del comportamiento de la variable.
- * El marco escucha los eventos de cierre de la ventana y responde al cerrar la JVM. para el usuario.
- *
- * En la parte superior del marco se muestra un menú desplegable donde se puede seleccionar la variable que se desea ver
- * El marco además del gráfico tiene un botón para regresar a la interfaz gráfica de Inicio
- * @see Inicio
- */
 public class Resumen extends  JFrame implements ItemListener {
 
-    /** JPanel que contiene los gráficos de ambas variables*/
     private JPanel cards;
-    /** String del botón Temperatura*/
     private final static String BUTTONPANEL = "Temperatura";
-    /** String del botón Resistencia*/
     private final static String TEXTPANEL = "Fotoresistencia";
     private static Color fondo = new Color(255, 255, 255);
-    /** El id para acceder en el servidor */
-    private String username;
 
-    /**
-     * Construye e inicializa un nuevo ApplicationFrame Resumen
-     * @param  r1   Objeto Recibir que obtiene los datos del servidor
-     * @param  username El id para acceder en el servidor
-     */
 
-    Resumen(Recibir r1, String username) {
-        this.username=username;
+    Resumen(Recibir r1) {
+
         List<String> fechas = r1.getUltimasFechas();
+
         String mensajeTemp = leerTotal("Temperatura");
         String mensajeResist = leerTotal("FotoResistencia");
 
@@ -97,7 +73,6 @@ public class Resumen extends  JFrame implements ItemListener {
         //Opciones Cartas
         JPanel comboBoxPane = new JPanel(); //use FlowLayout
         String comboBoxItems[] = { BUTTONPANEL, TEXTPANEL };
-
         JComboBox cb = new JComboBox(comboBoxItems);
         cb.setEditable(false);
         cb.addItemListener(this);
@@ -105,53 +80,12 @@ public class Resumen extends  JFrame implements ItemListener {
         cb.setBackground(fondo);
         comboBoxPane.setBackground(fondo);
 
-        JButton jButton1 = new JButton();
-        jButton1.setBackground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Regresar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
 
-        InputStream fuente = getClass().getResourceAsStream("/Uni Sans Heavy Italic_0.otf");
-        try{
-            Font FuenteUniSans = Font.createFont(Font.TRUETYPE_FONT,fuente).deriveFont(Font.PLAIN, 18);
-
-            jButton1.setFont(FuenteUniSans); // NOI18N
-
-
-        }catch (Exception e){
-
-        }
-
-
-        JLabel labEspacio = new JLabel();
-        labEspacio.setPreferredSize(new Dimension(20,20));
-        labEspacio.setBackground(Color.WHITE);
-
-        JPanel jp1 = new JPanel();
-        jp1.setLayout(new GridLayout(1,4));
-        jp1.add(comboBoxPane);
-        jp1.add(labEspacio);
-        jp1.add(labEspacio);
-        jp1.add(jButton1);
-        jp1.setBackground(Color.WHITE);
-
-
-
-
-        add(jp1, BorderLayout.PAGE_START);
+        add(comboBoxPane, BorderLayout.PAGE_START);
         add(cards, BorderLayout.CENTER);
-        getContentPane().setBackground(Color.WHITE);
 
     }
 
-    /**Retorna el contenido del archivo del análisis de la variable.Si no se encuentra el archivo , se retorna el siguiente mensaje: "No hay registros para la variable "
-     * @param variable nombre de la variable , cuyo archivo de análisis se quiere leer
-     * @return String con el contenido del archivo del análisis de la variable
-     *
-     * */
     private String  leerTotal(String variable){
         StringBuilder mensaje = new StringBuilder();
         try {
@@ -169,23 +103,10 @@ public class Resumen extends  JFrame implements ItemListener {
         return "No hay registros para la variable "+ variable;
     }
 
-    /**Se invoca cuando un elemento ha sido seleccionado o deseleccionado por el usuario.
-     * Cuando se selecciona , desde el menu desplegable una variable, en la ventana se muestra el resumen y an[alisis de esta
-     * */
+
     public void itemStateChanged(ItemEvent evt) {
         CardLayout cl = (CardLayout)(cards.getLayout());
         cl.show(cards, (String)evt.getItem());
-    }
-
-
-    /** Al hacer clic en el botón regresar esconde esta ventana y muestra la interfaz gráfica de Inicio
-     * @param evt : objeto ActionEvent
-     * @see Inicio
-     * */
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
-        new Inicio(this.username).setVisible(true);
-        this.dispose();
     }
 
 
